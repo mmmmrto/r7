@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Raise It Up · for Daniil</title>
+<meta name="description" content="A birthday song for Daniil. С днём рождения!">
+<meta property="og:title" content="Raise It Up · for Daniil">
+<meta property="og:description" content="A birthday song. Press play.">
+<meta property="og:image" content="cover.jpg">
+<meta name="theme-color" content="#0b0820">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --gold:#f3cf8a; --ink:#f4eefc; --mute:#b9aed6; --glass:rgba(20,14,46,.55); }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html,body { min-height:100%; background:#0b0820; color:var(--ink); }
+  html { background:#0b0820 url(bg.jpg) center/cover no-repeat fixed; }
+  body {
+    font-family:Montserrat,system-ui,sans-serif;
+    background:#0b0820 url(bg.jpg) center/cover fixed no-repeat;
+    display:flex; justify-content:center; padding:max(28px,env(safe-area-inset-top)) 18px 48px;
+  }
+  body::before { content:""; position:fixed; inset:0; background:radial-gradient(ellipse at 50% 30%, rgba(11,8,32,.15), rgba(11,8,32,.75) 80%); pointer-events:none; }
+  main { position:relative; width:100%; max-width:440px; text-align:center; }
+  .kicker { font-size:.72rem; letter-spacing:.32em; text-transform:uppercase; color:var(--mute); margin:6px 0 18px; }
+  .cover { position:relative; width:100%; aspect-ratio:1; border-radius:22px; overflow:hidden;
+           box-shadow:0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08); }
+  .cover img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 20s linear; }
+  .playing .cover img { transform:scale(1.12) rotate(2deg); }
+  .cover .title { position:absolute; inset:auto 0 0 0; padding:70px 20px 22px;
+                  background:linear-gradient(transparent, rgba(8,5,25,.85)); }
+  h1 { font-family:"Cormorant Garamond",serif; font-weight:600; font-size:clamp(2.6rem,11vw,3.4rem); line-height:1; letter-spacing:.01em;
+       background:linear-gradient(180deg,#fff, var(--gold)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .for { font-family:"Cormorant Garamond",serif; font-style:italic; font-size:1.35rem; color:var(--ink); margin-top:6px; opacity:.95; }
+
+  .player { margin:22px 0 10px; padding:18px 18px 16px; border-radius:20px; background:var(--glass);
+            backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.09); }
+  .row { display:flex; align-items:center; gap:16px; }
+  button.play { flex:none; width:64px; height:64px; border-radius:50%; border:0; cursor:pointer;
+                background:radial-gradient(circle at 35% 30%, #fff3d6, var(--gold) 55%, #c99a4e);
+                box-shadow:0 8px 30px rgba(243,207,138,.45); display:grid; place-items:center; transition:transform .15s; }
+  button.play:active { transform:scale(.94); }
+  button.play svg { width:26px; height:26px; fill:#1a1236; }
+  .track { flex:1; text-align:left; min-width:0; }
+  .bar { position:relative; height:6px; border-radius:6px; background:rgba(255,255,255,.14); cursor:pointer; margin:8px 0 7px; }
+  .fill { position:absolute; inset:0 auto 0 0; width:0; border-radius:6px; background:linear-gradient(90deg,#9b6cff,var(--gold)); }
+  .times { display:flex; justify-content:space-between; font-size:.72rem; color:var(--mute); font-variant-numeric:tabular-nums; }
+  .name { font-weight:600; font-size:.95rem; } .sub { font-size:.75rem; color:var(--mute); }
+
+  .wish { font-family:"Cormorant Garamond",serif; font-size:1.5rem; margin:26px 0 4px; }
+  .wish span { color:var(--gold); }
+  .wish-sub { font-size:.8rem; color:var(--mute); letter-spacing:.04em; }
+
+  details { margin-top:28px; text-align:left; border-radius:18px; background:var(--glass); border:1px solid rgba(255,255,255,.08);
+            backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
+  summary { list-style:none; cursor:pointer; padding:16px 20px; font-size:.75rem; letter-spacing:.28em; text-transform:uppercase; color:var(--mute); text-align:center; }
+  summary::-webkit-details-marker { display:none; }
+  .lyrics { padding:0 24px 26px; font-family:"Cormorant Garamond",serif; font-size:1.18rem; line-height:1.5; }
+  .lyrics h3 { font-family:Montserrat,sans-serif; font-size:.62rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin:20px 0 6px; font-weight:500; }
+  footer { margin-top:30px; font-size:.7rem; color:rgba(185,174,214,.6); letter-spacing:.06em; }
+</style>
+</head>
+<body>
+<main id="app">
+  <p class="kicker">A song for your birthday</p>
+  <div class="cover">
+    <img src="cover.jpg" alt="Starfield">
+    <div class="title"><h1>Raise It Up</h1><p class="for">for Daniil</p></div>
+  </div>
+
+  <div class="player">
+    <div class="row">
+      <button class="play" id="play" aria-label="Play">
+        <svg id="ico" viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>
+      </button>
+      <div class="track">
+        <div class="name">Raise It Up</div>
+        <div class="sub">for Daniil · 3:37</div>
+        <div class="bar" id="bar"><div class="fill" id="fill"></div></div>
+        <div class="times"><span id="cur">0:00</span><span id="dur">3:37</span></div>
+      </div>
+    </div>
+  </div>
+  <audio id="audio" src="raise-it-up.m4a" preload="metadata"></audio>
+
+  <p class="wish"><span>С днём рождения,</span> Daniil!</p>
+  <p class="wish-sub">Aim high, laugh loud, and take the whole sky.</p>
+
+  <details>
+    <summary>Lyrics</summary>
+    <div class="lyrics">
+      <h3>Verse 1</h3>
+      Daniil locks in, steady hands on the keys,<br>No panic in the room, no bending at the knees.<br>Round after round, he keeps his focus tight,<br>Then cracks one joke and has the whole crew bright.
+      <h3>Pre-Chorus</h3>
+      He puts in the hours, he trusts the plan,<br>When trouble comes calling, he’s already standing.
+      <h3>Chorus</h3>
+      Hey, Daniil, raise it up tonight!<br>Fearless heart and a will that won’t quit the fight.<br>С днём рождения — let the whole room sing,<br>From the final round to the edge of everything!<br>Hey, Daniil, here’s to what’s ahead,<br>A universe of questions and a bright mind to thread.
+      <h3>Verse 2</h3>
+      He reads the map, makes the call, leads the way,<br>Keeps his discipline when the easy choice is to stray.<br>Good laugh ready when the long day’s done,<br>Makes every hard-won victory twice the fun.
+      <h3>Bridge</h3>
+      One day he’ll chart what the dark can’t hide,<br>Measure distant worlds with a steady mind.<br>But tonight, my friend, let the glasses ring—<br>The next great discovery starts with this sing!
+      <h3>Outro</h3>
+      Daniil! С днём рождения!<br>Aim high, laugh loud, and take the whole sky!
+    </div>
+  </details>
+
+  <footer>made with love · 2026</footer>
+</main>
+<script>
+  const a=document.getElementById('audio'), btn=document.getElementById('play'), ico=document.getElementById('ico'),
+        fill=document.getElementById('fill'), bar=document.getElementById('bar'),
+        cur=document.getElementById('cur'), dur=document.getElementById('dur'), app=document.getElementById('app');
+  const PLAY='M7 4.5v15l13-7.5z', PAUSE='M6.5 4.5h4v15h-4zM13.5 4.5h4v15h-4z';
+  const fmt=s=>isFinite(s)?Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0'):'0:00';
+  btn.onclick=()=>a.paused?a.play():a.pause();
+  a.onplay=()=>{ico.firstElementChild.setAttribute('d',PAUSE);btn.setAttribute('aria-label','Pause');app.classList.add('playing');};
+  a.onpause=()=>{ico.firstElementChild.setAttribute('d',PLAY);btn.setAttribute('aria-label','Play');app.classList.remove('playing');};
+  a.onloadedmetadata=()=>dur.textContent=fmt(a.duration);
+  a.ontimeupdate=()=>{cur.textContent=fmt(a.currentTime);fill.style.width=(a.currentTime/a.duration*100||0)+'%';};
+  a.onended=()=>{a.currentTime=0;};
+  bar.onclick=e=>{const r=bar.getBoundingClientRect();if(a.duration)a.currentTime=(e.clientX-r.left)/r.width*a.duration;};
+</script>
+</body>
+</html>
